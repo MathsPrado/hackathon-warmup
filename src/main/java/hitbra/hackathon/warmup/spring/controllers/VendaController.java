@@ -36,7 +36,18 @@ public class VendaController {
             return ResponseEntity.notFound().build();
         }
         repo.save(atualizando);
-        return new ResponseEntity<>("Veículo já cadastrado.", HttpStatus.BAD_REQUEST);//.badRequest().body("Veículo já cadastrado.");
+        return ResponseEntity.ok("Venda atualizada com suscesso.");
+    }
+
+    @DeleteMapping("/{comprovante}")
+    public ResponseEntity<String> apagarVenda (@PathVariable String comprovante) {
+        Venda venda = repo.findByComprovante(comprovante);
+
+        if(venda==null){
+            return ResponseEntity.notFound().build();
+        }
+        repo.delete(venda);
+        return ResponseEntity.ok("Venda apagado com suscesso.");
     }
 
 
