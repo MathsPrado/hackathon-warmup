@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
-@Document(collection = "veiculos")
+@Document(collection = "vendas")
 
 public class Venda {
     private String nomeComprador;
