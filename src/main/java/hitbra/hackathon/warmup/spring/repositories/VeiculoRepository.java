@@ -9,5 +9,6 @@ public interface VeiculoRepository extends MongoRepository<Veiculo, String> {
 
     public List<Veiculo> findByModelo(String modelo);
     public List<Veiculo> findByMarca(String marca);
-
+    public Veiculo findByPlaca(String placa);
+    public List<Veiculo> findByMarcaOrModelo(String marca, String modelo);
 }
