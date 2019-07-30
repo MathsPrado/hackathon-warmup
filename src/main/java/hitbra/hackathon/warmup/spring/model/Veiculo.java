@@ -3,6 +3,8 @@ package hitbra.hackathon.warmup.spring.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Document(collection = "veiculos")
 public class Veiculo {
 
@@ -11,7 +13,8 @@ public class Veiculo {
     private Integer ano;
     private Double valor;
     private String local;
-
+    private String placa;
+    private boolean disponivel;
     @Id
     public String id;
 
@@ -53,5 +56,29 @@ public class Veiculo {
 
     public void setLocal(String local) {
         this.local = local;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
