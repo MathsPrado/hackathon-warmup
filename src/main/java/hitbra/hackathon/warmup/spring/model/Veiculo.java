@@ -29,6 +29,10 @@ public class Veiculo {
     @NotNull (message = "Placa não pode ser nula")
     private String placa;
 
+    private String codigoFipe;
+
+    private String precoFipe;
+
     private boolean disponivel;
 
     @Id
@@ -100,6 +104,22 @@ public class Veiculo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCodigoFipe() {
+        return codigoFipe;
+    }
+
+    public void setCodigoFipe(String codigoFipe) {
+        this.codigoFipe = codigoFipe;
+    }
+
+    public String getPrecoFipe() {
+        return precoFipe;
+    }
+
+    public void setPrecoFipe(String precoFipe) {
+        this.precoFipe = precoFipe;
     }
 
     //endregion
