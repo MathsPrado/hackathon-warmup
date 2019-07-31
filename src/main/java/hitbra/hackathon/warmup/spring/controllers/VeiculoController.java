@@ -2,6 +2,7 @@ package hitbra.hackathon.warmup.spring.controllers;
 
 import hitbra.hackathon.warmup.spring.model.Veiculo;
 import hitbra.hackathon.warmup.spring.repositories.VeiculoRepository;
+import hitbra.hackathon.warmup.spring.services.ServiceOrquestrador;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.apache.coyote.Response;
@@ -23,6 +24,8 @@ public class VeiculoController {
     @Autowired
     private VeiculoRepository repo;
 
+    @Autowired
+    private ServiceOrquestrador serviceOrq;
 
     @GetMapping
     public List<Veiculo>  consultarVeiculos (@Param(value="marca") String marca,@Param(value="modelo") String modelo) {
@@ -46,6 +49,7 @@ public class VeiculoController {
 
         if(existe==null){
             recebendo.setDisponivel(true);
+            recebendo.setPrecoFipe(serviceOrq.consultaPrecoFipe(recebendo));
             repo.save(recebendo);
             return ResponseEntity.ok("Veículo cadastrado com suscesso.");
         }

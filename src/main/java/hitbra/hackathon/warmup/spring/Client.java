@@ -14,9 +14,9 @@ public class Client {
 	public static void main(String args[]) {
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<List<Message>> response = restTemplate.exchange(
-				"http://localhost:8080/echo/",
-				HttpMethod.GET, 
-				null, 
+				"http://fipeapi.appspot.com/api/1/carros/veiculo/21/001267-0/2013-1.json",
+				HttpMethod.GET,
+				null,
 				new ParameterizedTypeReference<List<Message>>() { });
 		List<Message> messages = response.getBody();
 		System.out.println(messages.toString());

@@ -29,6 +29,16 @@ public class Veiculo {
     @NotNull (message = "Placa não pode ser nula")
     private String placa;
 
+    @NotNull (message = "Código fipe não pode ser nulo")
+    private String codigoFipe;
+
+
+    private String precoFipe;
+
+    @NotNull (message = "Id fipe não pode ser nulo")
+    private String idFipe;
+
+
     private boolean disponivel;
 
     @Id
@@ -60,6 +70,14 @@ public class Veiculo {
 
     public void setAno(Integer ano) {
         this.ano = ano;
+    }
+
+    public String getIdFipe() {
+        return idFipe;
+    }
+
+    public void setIdFipe(String idFipe) {
+        this.idFipe = idFipe;
     }
 
     public Double getValor() {
@@ -102,5 +120,20 @@ public class Veiculo {
         this.id = id;
     }
 
-    //endregion
+    public String getCodigoFipe() {
+        return codigoFipe;
+    }
+
+    public void setCodigoFipe(String codigoFipe) {
+        this.codigoFipe = codigoFipe;
+    }
+
+    public String getPrecoFipe() {
+        return precoFipe;
+    }
+
+    public void setPrecoFipe(String precoFipe) {
+        this.precoFipe = precoFipe;
+    }
+//endregion
 }
