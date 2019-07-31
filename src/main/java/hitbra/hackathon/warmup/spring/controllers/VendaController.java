@@ -1,10 +1,8 @@
 package hitbra.hackathon.warmup.spring.controllers;
-import hitbra.hackathon.warmup.spring.model.Veiculo;
 import hitbra.hackathon.warmup.spring.model.Venda;
 import hitbra.hackathon.warmup.spring.repositories.VendaRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +10,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sales")
-@Api(value = "/sales")
+@RequestMapping("/v1/sales")
+@Api(value = "/v1/sales")
 public class VendaController {
 
     @Autowired
@@ -21,8 +19,7 @@ public class VendaController {
 
     @PostMapping
     public ResponseEntity<String> adicionarVenda (@Valid @RequestBody Venda recebendo){
-            //Venda venda = new Venda();
-            //venda = recebendo;
+
             repo.save(recebendo);
             return ResponseEntity.ok("venda cadastrada com suscesso.");
     }

@@ -8,18 +8,36 @@ import java.util.UUID;
 
 @Document(collection = "veiculos")
 public class Veiculo {
+
+    //region Declarações das variaveis
     @NotNull (message = "Marca não pode ser nula")
     private String marca;
 
+    @NotNull (message = "Modelo não pode ser nulo")
     private String modelo;
+
+    @NotNull (message = "Ano não pode ser nulo")
     private Integer ano;
+
+    @NotNull (message = "Valor não pode ser nulo")
     private Double valor;
+
+
+    @NotNull (message = "Local não pode ser nulo")
     private String local;
+
+    @NotNull (message = "Placa não pode ser nula")
     private String placa;
+
     private boolean disponivel;
+
     @Id
     public String id;
 
+    //endregion
+
+
+    //region getters and setters
     public String getMarca() {
         return marca;
     }
@@ -83,4 +101,6 @@ public class Veiculo {
     public void setId(String id) {
         this.id = id;
     }
+
+    //endregion
 }

@@ -3,29 +3,58 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Document(collection = "vendas")
 
 public class Venda {
 
+    //region Declarações das variaveis
+
     @NotNull(message = "Nome do comprador não pode ser nulo")
     private String nomeComprador;
+
+    @Size(min=11, message="CPF necessita de 11 Digitos")
+    @NotNull(message = "CPF do Comprador não pode ser nulo")
     private String cpfComprador;
+
+    @NotNull(message = "Endereço do Comprador não pode ser nulo")
     private String endCOmprador;
 
+    @NotNull(message = "Nome do vendedor não pode ser nulo")
     private String nomeVendedor;
+
+    @Pattern(regexp="\\d{6}", message="CPF necessita de 11 Digitos")
+    //@Size(min=11, max = 11, message="CPF necessita de 11 Digitos")
+    @NotNull(message = "CPF do Vendedor não pode ser nulo")
     private String cpfVendedor;
+
+
+    @NotNull(message = "Endereço do Vendedor não pode ser nulo")
     private String endVendor;
 
+    @NotNull(message = "Placa não pode ser nula")
     private String placa;
+
+    @NotNull(message = "Valor não pode ser nulo")
     private Double valor;
+
+    @NotNull(message = "Data não pode ser nula")
     private String data;
+
+    @NotNull(message = "Comprovante não pode ser nulo")
     private String comprovante;
 
     @Id
     public String id;
 
+
+    //endregion
+
+
+    //region Getter and setters
     public String getNomeComprador() {
         return nomeComprador;
     }
@@ -105,4 +134,6 @@ public class Venda {
     public void setComprovante(String comprovante) {
         this.comprovante = comprovante;
     }
+
+    //endregion
 }

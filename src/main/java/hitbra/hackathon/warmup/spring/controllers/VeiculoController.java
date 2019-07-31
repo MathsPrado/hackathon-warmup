@@ -11,12 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/vehicles")
-@Api(value = "/vehicles")
+@RequestMapping("/v1/vehicles")
+@Api(value = "/v1/vehicles")
 public class VeiculoController {
 
     @Autowired
@@ -25,20 +26,33 @@ public class VeiculoController {
     @GetMapping
     public List<Veiculo>  consultarVeiculos (@Param(value="marca") String marca,@Param(value="modelo") String modelo) {
         if(marca==null && modelo==null){
-            return repo.findAll();
+            return repo.findByDisponivel(true);
         } else{
             return repo.findByMarcaOrModelo(marca,modelo);
         }
     }
 
+
+    @GetMapping("/{placa}")
+    public Veiculo consultarVeiculos (@PathVariable String placa) {
+        return repo.findByPlaca(placa);
+    }
+
+
     @PostMapping
-    public ResponseEntity<String> adicionarVeiculo (@RequestBody Veiculo recebendo){
+    public ResponseEntity<String> adicionarVeiculo (@Valid @RequestBody Veiculo recebendo){
         Veiculo existe = repo.findByPlaca(recebendo.getPlaca());
 
         if(existe==null){
+            recebendo.setDisponivel(true);
             repo.save(recebendo);
             return ResponseEntity.ok("Veículo cadastrado com suscesso.");
         }
+
+        if(!existe.isDisponivel()){
+            return new ResponseEntity<>("Veiculo já foi cadastrado anteriormente, para Reativalo atualize o status dele para disponível", HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>("Veículo já cadastrado.", HttpStatus.BAD_REQUEST);//.badRequest().body("Veículo já cadastrado.");
     }
 
@@ -51,10 +65,10 @@ public class VeiculoController {
         if(veiculo==null){
             return ResponseEntity.notFound().build();
         }
-        repo.delete(veiculo);
+        veiculo.setDisponivel(false);
         return ResponseEntity.ok(veiculo);
     }
-
+  
     @PutMapping("/{placa}")
     public ResponseEntity<Veiculo> atualizarVeiculo (@PathVariable String placa, @RequestBody Veiculo atualizando) {
         Veiculo veiculo = repo.findByPlaca(placa);
@@ -65,6 +79,7 @@ public class VeiculoController {
         repo.save(veiculo);
         return ResponseEntity.ok(veiculo);
     }
+
 
 
 
