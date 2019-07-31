@@ -3,6 +3,7 @@ import hitbra.hackathon.warmup.spring.model.Venda;
 import hitbra.hackathon.warmup.spring.repositories.VendaRepository;
 import hitbra.hackathon.warmup.spring.services.ServiceOrquestrador;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class VendaController {
     private ServiceOrquestrador service;
 
     @PostMapping
+    @ApiOperation(value = "Adicionar uma venda.")
     public ResponseEntity<String> adicionarVenda (@Valid @RequestBody Venda recebendo)
     {
         // MicroService com API
@@ -36,10 +38,19 @@ public class VendaController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Listar todas as vendas.")
     public List<Venda> buscarVendas () {
         return repo.findAll();
     }
+
+    @GetMapping("/{comprovante}")
+    @ApiOperation(value = "Busca uma venda pelo comprovante.")
+    public Venda buscarVendaPorComprovante (@PathVariable String comprovante) {
+        return repo.findByComprovante(comprovante);
+    }
+
     @PutMapping("/{comprovante}")
+    @ApiOperation(value = "Atualizar os dados de uma venda.")
     public ResponseEntity<String> atualizarVenda (@PathVariable String comprovante, @RequestBody Venda atualizando) {
         Venda venda = repo.findByComprovante(comprovante);
 
@@ -51,6 +62,7 @@ public class VendaController {
     }
 
     @DeleteMapping("/{comprovante}")
+    @ApiOperation(value = "Apaga uma venda específica.")
     public ResponseEntity<String> apagarVenda (@PathVariable String comprovante) {
         Venda venda = repo.findByComprovante(comprovante);
 
@@ -60,7 +72,4 @@ public class VendaController {
         repo.delete(venda);
         return ResponseEntity.ok("Venda apagado com suscesso.");
     }
-
-
-
 }
