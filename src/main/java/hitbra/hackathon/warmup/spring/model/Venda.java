@@ -2,11 +2,14 @@ package hitbra.hackathon.warmup.spring.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Document(collection = "vendas")
 
 public class Venda {
+
+    @NotNull(message = "Nome do comprador não pode ser nulo")
     private String nomeComprador;
     private String cpfComprador;
     private String endCOmprador;

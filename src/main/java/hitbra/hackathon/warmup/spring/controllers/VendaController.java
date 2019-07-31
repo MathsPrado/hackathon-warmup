@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,9 @@ public class VendaController {
     private VendaRepository repo;
 
     @PostMapping
-    public ResponseEntity<String> adicionarVenda (@RequestBody Venda recebendo){
+    public ResponseEntity<String> adicionarVenda (@Valid @RequestBody Venda recebendo){
+            //Venda venda = new Venda();
+            //venda = recebendo;
             repo.save(recebendo);
             return ResponseEntity.ok("venda cadastrada com suscesso.");
     }

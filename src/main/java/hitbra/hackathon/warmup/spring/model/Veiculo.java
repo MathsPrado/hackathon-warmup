@@ -3,12 +3,14 @@ package hitbra.hackathon.warmup.spring.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Document(collection = "veiculos")
 public class Veiculo {
-
+    @NotNull (message = "Marca não pode ser nula")
     private String marca;
+
     private String modelo;
     private Integer ano;
     private Double valor;
