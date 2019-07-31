@@ -31,7 +31,7 @@ public class VeiculoController {
 
     @GetMapping
     @ApiOperation(value = "Retorna uma lista de veículo, filtrando por marca ou modelo.")
-    public List<Veiculo>  consultarVeiculos (@ApiParam(value = "Marca do veículo") @Param(value="marca") String marca, @ApiParam(value = "Modelo do veículo") @Param(value="modelo") String modelo) {
+    public List<Veiculo>  consultarVeiculos (@ApiParam(value = "Marca do veículo", type = "query") @Param(value="marca") String marca, @ApiParam(value = "Modelo do veículo") @Param(value="modelo") String modelo) {
         if(marca==null && modelo==null){
             return repo.findByDisponivel(true);
         } else{
