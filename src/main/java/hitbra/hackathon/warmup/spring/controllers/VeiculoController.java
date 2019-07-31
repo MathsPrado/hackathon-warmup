@@ -23,6 +23,7 @@ public class VeiculoController {
     @Autowired
     private VeiculoRepository repo;
 
+
     @GetMapping
     public List<Veiculo>  consultarVeiculos (@Param(value="marca") String marca,@Param(value="modelo") String modelo) {
         if(marca==null && modelo==null){
@@ -34,7 +35,7 @@ public class VeiculoController {
 
 
     @GetMapping("/{placa}")
-    public Veiculo consultarVeiculos (@PathVariable String placa) {
+    public Veiculo consultarVeiculoPorPlaca (@PathVariable String placa) {
         return repo.findByPlaca(placa);
     }
 
@@ -57,7 +58,7 @@ public class VeiculoController {
     }
 
 
-    //Colocar a placa do carro desejado para apagar
+
     @DeleteMapping("/{placa}")
     public ResponseEntity<Veiculo> apagarVeiculo (@PathVariable String placa) {
         Veiculo veiculo = repo.findByPlaca(placa);
@@ -66,9 +67,11 @@ public class VeiculoController {
             return ResponseEntity.notFound().build();
         }
         veiculo.setDisponivel(false);
+        repo.save(veiculo);
+
         return ResponseEntity.ok(veiculo);
     }
-  
+
     @PutMapping("/{placa}")
     public ResponseEntity<Veiculo> atualizarVeiculo (@PathVariable String placa, @RequestBody Veiculo atualizando) {
         Veiculo veiculo = repo.findByPlaca(placa);
@@ -77,6 +80,19 @@ public class VeiculoController {
             return ResponseEntity.notFound().build();
         }
         repo.save(veiculo);
+        return ResponseEntity.ok(veiculo);
+    }
+
+    @PutMapping("/reativar/{placa}")
+    public ResponseEntity<Veiculo> reativarVeiculo (@PathVariable String placa) {
+        Veiculo veiculo = repo.findByPlaca(placa);
+
+        if(veiculo==null){
+            return ResponseEntity.notFound().build();
+        }
+        veiculo.setDisponivel(true);
+        repo.save(veiculo);
+
         return ResponseEntity.ok(veiculo);
     }
 

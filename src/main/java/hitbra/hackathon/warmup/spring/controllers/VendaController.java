@@ -1,6 +1,7 @@
 package hitbra.hackathon.warmup.spring.controllers;
 import hitbra.hackathon.warmup.spring.model.Venda;
 import hitbra.hackathon.warmup.spring.repositories.VendaRepository;
+import hitbra.hackathon.warmup.spring.services.ServiceOrquestrador;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,20 @@ public class VendaController {
     @Autowired
     private VendaRepository repo;
 
-    @PostMapping
-    public ResponseEntity<String> adicionarVenda (@Valid @RequestBody Venda recebendo){
+    @Autowired
+    private ServiceOrquestrador service;
 
-            repo.save(recebendo);
+    @PostMapping
+    public ResponseEntity<String> adicionarVenda (@Valid @RequestBody Venda recebendo)
+    {
+        // MicroService com API
+        // service -> ServiceVendaVeiculo.realizarVenda()
+        // service -> ServiceAtualizarVeiculo.atualizarStatus()
+
+
+        // MicroService com ServiceMesh
+        //  service -> ServiceOrquestrador.realizarVenda( )
+            service.efetivarVenda(recebendo);
             return ResponseEntity.ok("venda cadastrada com suscesso.");
     }
 

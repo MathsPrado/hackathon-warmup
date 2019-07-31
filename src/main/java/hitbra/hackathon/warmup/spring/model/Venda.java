@@ -16,7 +16,7 @@ public class Venda {
     @NotNull(message = "Nome do comprador não pode ser nulo")
     private String nomeComprador;
 
-    @Size(min=11, message="CPF necessita de 11 Digitos")
+    @Pattern(regexp="\\d{11}", message="CPF necessita de 11 Digitos")
     @NotNull(message = "CPF do Comprador não pode ser nulo")
     private String cpfComprador;
 
@@ -26,7 +26,7 @@ public class Venda {
     @NotNull(message = "Nome do vendedor não pode ser nulo")
     private String nomeVendedor;
 
-    @Pattern(regexp="\\d{6}", message="CPF necessita de 11 Digitos")
+    @Pattern(regexp="\\d{11}", message="CPF necessita de 11 Digitos")
     //@Size(min=11, max = 11, message="CPF necessita de 11 Digitos")
     @NotNull(message = "CPF do Vendedor não pode ser nulo")
     private String cpfVendedor;
