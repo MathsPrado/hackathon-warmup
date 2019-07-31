@@ -3,6 +3,8 @@ package hitbra.hackathon.warmup.spring.controllers;
 import hitbra.hackathon.warmup.spring.model.Veiculo;
 import hitbra.hackathon.warmup.spring.repositories.VeiculoRepository;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ public class VeiculoController {
 
 
     @GetMapping
-    public List<Veiculo>  consultarVeiculos (@Param(value="marca") String marca,@Param(value="modelo") String modelo) {
+    @ApiOperation(value = "Retorna uma lista de veículo, filtrando por marca ou modelo.")
+    public List<Veiculo>  consultarVeiculos (@ApiParam(value = "Marca do veículo") @Param(value="marca") String marca, @ApiParam(value = "Modelo do veículo") @Param(value="modelo") String modelo) {
         if(marca==null && modelo==null){
             return repo.findByDisponivel(true);
         } else{
@@ -35,12 +38,14 @@ public class VeiculoController {
 
 
     @GetMapping("/{placa}")
+    @ApiOperation(value = "Busca veículo por placa.")
     public Veiculo consultarVeiculoPorPlaca (@PathVariable String placa) {
         return repo.findByPlaca(placa);
     }
 
 
     @PostMapping
+    @ApiOperation(value = "Adicionar um veículo para venda.")
     public ResponseEntity<String> adicionarVeiculo (@Valid @RequestBody Veiculo recebendo){
         Veiculo existe = repo.findByPlaca(recebendo.getPlaca());
 
@@ -60,6 +65,7 @@ public class VeiculoController {
 
 
     @DeleteMapping("/{placa}")
+    @ApiOperation(value = "Altera o status de do veículo para não disponível.")
     public ResponseEntity<Veiculo> apagarVeiculo (@PathVariable String placa) {
         Veiculo veiculo = repo.findByPlaca(placa);
 
@@ -73,6 +79,7 @@ public class VeiculoController {
     }
 
     @PutMapping("/{placa}")
+    @ApiOperation(value = "Altera os dados de um veículo.")
     public ResponseEntity<Veiculo> atualizarVeiculo (@PathVariable String placa, @RequestBody Veiculo atualizando) {
         Veiculo veiculo = repo.findByPlaca(placa);
 
@@ -84,6 +91,7 @@ public class VeiculoController {
     }
 
     @PutMapping("/reativar/{placa}")
+    @ApiOperation(value = "Altera status de um veículo para ativo.")
     public ResponseEntity<Veiculo> reativarVeiculo (@PathVariable String placa) {
         Veiculo veiculo = repo.findByPlaca(placa);
 
@@ -95,8 +103,4 @@ public class VeiculoController {
 
         return ResponseEntity.ok(veiculo);
     }
-
-
-
-
 }
