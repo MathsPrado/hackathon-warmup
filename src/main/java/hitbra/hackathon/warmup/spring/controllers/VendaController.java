@@ -42,6 +42,13 @@ public class VendaController {
     public List<Venda> buscarVendas () {
         return repo.findAll();
     }
+
+    @GetMapping("/{comprovante}")
+    @ApiOperation(value = "Busca uma venda pelo comprovante.")
+    public Venda buscarVendaPorComprovante (@PathVariable String comprovante) {
+        return repo.findByComprovante(comprovante);
+    }
+
     @PutMapping("/{comprovante}")
     @ApiOperation(value = "Atualizar os dados de uma venda.")
     public ResponseEntity<String> atualizarVenda (@PathVariable String comprovante, @RequestBody Venda atualizando) {
@@ -55,7 +62,7 @@ public class VendaController {
     }
 
     @DeleteMapping("/{comprovante}")
-    @ApiOperation(value = "Busca uma venda pelo compravante.")
+    @ApiOperation(value = "Apaga uma venda específica.")
     public ResponseEntity<String> apagarVenda (@PathVariable String comprovante) {
         Venda venda = repo.findByComprovante(comprovante);
 
