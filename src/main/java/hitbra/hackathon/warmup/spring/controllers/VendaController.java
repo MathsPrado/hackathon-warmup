@@ -1,34 +1,56 @@
 package hitbra.hackathon.warmup.spring.controllers;
-import hitbra.hackathon.warmup.spring.model.Veiculo;
 import hitbra.hackathon.warmup.spring.model.Venda;
 import hitbra.hackathon.warmup.spring.repositories.VendaRepository;
+import hitbra.hackathon.warmup.spring.services.ServiceOrquestrador;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sales")
-@Api(value = "/sales")
+@RequestMapping("/v1/sales")
+@Api(value = "/v1/sales")
 public class VendaController {
 
     @Autowired
     private VendaRepository repo;
 
+    @Autowired
+    private ServiceOrquestrador service;
+
     @PostMapping
-    public ResponseEntity<String> adicionarVenda (@RequestBody Venda recebendo){
-            repo.save(recebendo);
+    @ApiOperation(value = "Adicionar uma venda.")
+    public ResponseEntity<String> adicionarVenda (@Valid @RequestBody Venda recebendo)
+    {
+        // MicroService com API
+        // service -> ServiceVendaVeiculo.realizarVenda()
+        // service -> ServiceAtualizarVeiculo.atualizarStatus()
+
+
+        // MicroService com ServiceMesh
+        //  service -> ServiceOrquestrador.realizarVenda( )
+            service.efetivarVenda(recebendo);
             return ResponseEntity.ok("venda cadastrada com suscesso.");
     }
 
     @GetMapping
+    @ApiOperation(value = "Listar todas as vendas.")
     public List<Venda> buscarVendas () {
         return repo.findAll();
     }
+
+    @GetMapping("/{comprovante}")
+    @ApiOperation(value = "Busca uma venda pelo comprovante.")
+    public Venda buscarVendaPorComprovante (@PathVariable String comprovante) {
+        return repo.findByComprovante(comprovante);
+    }
+
     @PutMapping("/{comprovante}")
+    @ApiOperation(value = "Atualizar os dados de uma venda.")
     public ResponseEntity<String> atualizarVenda (@PathVariable String comprovante, @RequestBody Venda atualizando) {
         Venda venda = repo.findByComprovante(comprovante);
 
@@ -36,9 +58,18 @@ public class VendaController {
             return ResponseEntity.notFound().build();
         }
         repo.save(atualizando);
-        return new ResponseEntity<>("Veículo já cadastrado.", HttpStatus.BAD_REQUEST);//.badRequest().body("Veículo já cadastrado.");
+        return ResponseEntity.ok("Venda atualizada com suscesso.");
     }
 
+    @DeleteMapping("/{comprovante}")
+    @ApiOperation(value = "Apaga uma venda específica.")
+    public ResponseEntity<String> apagarVenda (@PathVariable String comprovante) {
+        Venda venda = repo.findByComprovante(comprovante);
 
-
+        if(venda==null){
+            return ResponseEntity.notFound().build();
+        }
+        repo.delete(venda);
+        return ResponseEntity.ok("Venda apagado com suscesso.");
+    }
 }

@@ -33,7 +33,8 @@ fs.readFile('data/2019.csv', 'utf8', function (err, contents) {
 					ano: item.year,
 					valor: randomValue(999) * 100,
 					local: locais[randomValue(5) - 1],
-					placa: randomPlate()
+					placa: randomPlate(),
+					disponivel: true
 				}
 				db.collection('veiculos').insertOne(veiculo);
 				console.log("Vehicle saved: "+ JSON.stringify(veiculo));
